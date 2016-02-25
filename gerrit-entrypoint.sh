@@ -28,6 +28,7 @@ if [ "$1" = "/gerrit-start.sh" ]; then
   # Install external plugins
   cp -f ${GERRIT_HOME}/delete-project.jar ${GERRIT_SITE}/plugins/delete-project.jar
   cp -f ${GERRIT_HOME}/events-log.jar ${GERRIT_SITE}/plugins/events-log.jar
+  cp -f ${GERRIT_HOME}/download-commands.jar ${GERRIT_SITE}/plugins/download-commands.jar
 
   # Provide a way to customise this image
   echo
