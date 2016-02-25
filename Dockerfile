@@ -6,7 +6,7 @@ MAINTAINER zsx <thinkernel@gmail.com>
 ENV GERRIT_HOME /var/gerrit
 ENV GERRIT_SITE ${GERRIT_HOME}/review_site
 ENV GERRIT_WAR ${GERRIT_HOME}/gerrit.war
-ENV GERRIT_VERSION 2.11.6
+ENV GERRIT_VERSION 2.11.7
 ENV GERRIT_USER gerrit2
 ENV GERRIT_INIT_ARGS ""
 
@@ -45,6 +45,12 @@ RUN curl \
 RUN curl \
     -L ${GERRITFORGE_URL}/job/plugin-events-log-${PLUGIN_VERSION}/${GERRITFORGE_ARTIFACT_DIR}/events-log/events-log.jar \
     -o ${GERRIT_HOME}/events-log.jar
+
+# dowload-commands plugin
+RUN curl \
+    -L ${GERRITFORGE_URL}/job/plugin-download-commands-${PLUGIN_VERSION}/${GERRITFORGE_ARTIFACT_DIR}/download-commands/download-commands.jar \
+    -o ${GERRIT_HOME}/download-commands.jar
+
 
 # Ensure the entrypoint scripts are in a fixed location
 COPY gerrit-entrypoint.sh /
