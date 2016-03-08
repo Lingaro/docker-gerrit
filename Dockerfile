@@ -36,21 +36,35 @@ ENV PLUGIN_VERSION=stable-2.11
 ENV GERRITFORGE_URL=https://gerrit-ci.gerritforge.com
 ENV GERRITFORGE_ARTIFACT_DIR=lastSuccessfulBuild/artifact/buck-out/gen/plugins
 #delete-project
+RUN mkdir -p ${GERRIT_HOME}/plugins
 RUN curl \
     -L ${GERRITFORGE_URL}/job/plugin-delete-project-${PLUGIN_VERSION}/${GERRITFORGE_ARTIFACT_DIR}/delete-project/delete-project.jar \
-    -o ${GERRIT_HOME}/delete-project.jar
+    -o ${GERRIT_HOME}/plugins/delete-project.jar
 
 #events-log
 #This plugin is required by gerrit-trigger plugin of Jenkins.
 RUN curl \
     -L ${GERRITFORGE_URL}/job/plugin-events-log-${PLUGIN_VERSION}/${GERRITFORGE_ARTIFACT_DIR}/events-log/events-log.jar \
-    -o ${GERRIT_HOME}/events-log.jar
+    -o ${GERRIT_HOME}/plugins/events-log.jar
 
-# dowload-commands plugin
+# download-commands plugin
 RUN curl \
     -L ${GERRITFORGE_URL}/job/plugin-download-commands-${PLUGIN_VERSION}/${GERRITFORGE_ARTIFACT_DIR}/download-commands/download-commands.jar \
-    -o ${GERRIT_HOME}/download-commands.jar
+    -o ${GERRIT_HOME}/plugins/download-commands.jar
 
+# download bouncy castle
+ENV BOUNCY_CASTLE_VERSION 154
+ENV BOUNCY_CASTLE_URL https://www.bouncycastle.org/download
+RUN mkdir -p ${GERRIT_HOME}/lib
+RUN curl \
+    -L ${BOUNCY_CASTLE_URL}/bcprov-jdk15on-${BOUNCY_CASTLE_VERSION}.jar \
+    -o ${GERRIT_HOME}/lib/bcprov-jdk15on-${BOUNCY_CASTLE_VERSION}.jar
+RUN curl \
+    -L ${BOUNCY_CASTLE_URL}/bcpkix-jdk15on-${BOUNCY_CASTLE_VERSION}.jar \
+    -o ${GERRIT_HOME}/lib/bcpkix-jdk15on-${BOUNCY_CASTLE_VERSION}.jar
+RUN curl \
+    -L ${BOUNCY_CASTLE_URL}/bcpg-jdk15on-${BOUNCY_CASTLE_VERSION}.jar \
+    -o ${GERRIT_HOME}/lib/bcpg-jdk15on-${BOUNCY_CASTLE_VERSION}.jar
 
 # Ensure the entrypoint scripts are in a fixed location
 COPY gerrit-entrypoint.sh /
