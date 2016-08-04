@@ -57,7 +57,7 @@ RUN wget \
 
 #download-commands plugin
 RUN wget \
-    ${GERRITFORGE_URL}/job/plugin-download-commands-${PLUGIN_VERSION}/${GERRITFORGE_ARTIFACT_DIR}/download-commands/download-commands.jar \
+    ${GERRITFORGE_URL}/job/plugin-download-commands-master/${GERRITFORGE_ARTIFACT_DIR}/download-commands/download-commands.jar \
     -O ${GERRIT_HOME}/plugins/download-commands.jar
 
 #oauth2 plugin
