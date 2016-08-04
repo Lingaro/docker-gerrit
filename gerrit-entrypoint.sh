@@ -31,10 +31,6 @@ if [ "$1" = "/gerrit-start.sh" ]; then
   # Install external libraries
   cp -rf ${GERRIT_HOME}/lib/* ${GERRIT_SITE}/lib/
 
-  # Install the Bouncy Castle
-  cp -f ${GERRIT_HOME}/bcprov-jdk15on-${BOUNCY_CASTLE_VERSION}.jar ${GERRIT_SITE}/lib/bcprov-jdk15on-${BOUNCY_CASTLE_VERSION}.jar
-  cp -f ${GERRIT_HOME}/bcpkix-jdk15on-${BOUNCY_CASTLE_VERSION}.jar ${GERRIT_SITE}/lib/bcpkix-jdk15on-${BOUNCY_CASTLE_VERSION}.jar
-
   # Provide a way to customise this image
   echo
   for f in /docker-entrypoint-init.d/*; do
