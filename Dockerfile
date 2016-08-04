@@ -65,6 +65,11 @@ RUN wget \
     ${GERRITFORGE_URL}/job/plugin-gerrit-oauth-provider-gh-master/${GERRITFORGE_ARTIFACT_DIR}/gerrit-oauth-provider/gerrit-oauth-provider.jar \
     -O ${GERRIT_HOME}/plugins/gerrit-oauth-provider.jar
 
+#singleusergroup plugin
+RUN wget \
+    ${GERRITFORGE_URL}/job/plugin-singleusergroup-master/${GERRITFORGE_ARTIFACT_DIR}/singleusergroup/singleusergroup.jar \
+    -O ${GERRIT_HOME}/plugins/singleusergroup.jar
+
 #download bouncy castle
 ENV BOUNCY_CASTLE_VERSION 1.54
 ENV BOUNCY_CASTLE_URL http://central.maven.org/maven2/org/bouncycastle
