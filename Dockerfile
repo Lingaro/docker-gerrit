@@ -44,32 +44,43 @@ ENV PLUGIN_VERSION=stable-2.12
 ENV GERRITFORGE_URL=https://gerrit-ci.gerritforge.com
 ENV GERRITFORGE_ARTIFACT_DIR=lastSuccessfulBuild/artifact/buck-out/gen/plugins
 #delete-project
+RUN mkdir -p ${GERRIT_HOME}/plugins
 RUN wget \
     ${GERRITFORGE_URL}/job/plugin-delete-project-${PLUGIN_VERSION}/${GERRITFORGE_ARTIFACT_DIR}/delete-project/delete-project.jar \
-    -O ${GERRIT_HOME}/delete-project.jar
+    -O ${GERRIT_HOME}/plugins/delete-project.jar
 
 #events-log
 #This plugin is required by gerrit-trigger plugin of Jenkins.
 RUN wget \
     ${GERRITFORGE_URL}/job/plugin-events-log-${PLUGIN_VERSION}/${GERRITFORGE_ARTIFACT_DIR}/events-log/events-log.jar \
-    -O ${GERRIT_HOME}/events-log.jar
+    -O ${GERRIT_HOME}/plugins/events-log.jar
+
+#download-commands plugin
+RUN wget \
+    ${GERRITFORGE_URL}/job/plugin-download-commands-${PLUGIN_VERSION}/${GERRITFORGE_ARTIFACT_DIR}/download-commands/download-commands.jar \
+    -O ${GERRIT_HOME}/plugins/download-commands.jar
 
 #oauth2 plugin
 RUN wget \
     ${GERRITFORGE_URL}/job/plugin-gerrit-oauth-provider-gh-master/${GERRITFORGE_ARTIFACT_DIR}/gerrit-oauth-provider/gerrit-oauth-provider.jar \
-    -O ${GERRIT_HOME}/gerrit-oauth-provider.jar
+    -O ${GERRIT_HOME}/plugins/gerrit-oauth-provider.jar
 
 #download bouncy castle
 ENV BOUNCY_CASTLE_VERSION 1.54
 ENV BOUNCY_CASTLE_URL http://central.maven.org/maven2/org/bouncycastle
 
+RUN mkdir -p ${GERRIT_HOME}/lib
 RUN wget \
     ${BOUNCY_CASTLE_URL}/bcprov-jdk15on/${BOUNCY_CASTLE_VERSION}/bcprov-jdk15on-${BOUNCY_CASTLE_VERSION}.jar \
-    -O ${GERRIT_HOME}/bcprov-jdk15on-${BOUNCY_CASTLE_VERSION}.jar
+    -O ${GERRIT_HOME}/lib/bcprov-jdk15on-${BOUNCY_CASTLE_VERSION}.jar
 
 RUN wget \
     ${BOUNCY_CASTLE_URL}/bcpkix-jdk15on/${BOUNCY_CASTLE_VERSION}/bcpkix-jdk15on-${BOUNCY_CASTLE_VERSION}.jar \
-    -O ${GERRIT_HOME}/bcpkix-jdk15on-${BOUNCY_CASTLE_VERSION}.jar
+    -O ${GERRIT_HOME}/lib/bcpkix-jdk15on-${BOUNCY_CASTLE_VERSION}.jar
+
+RUN wget \
+    ${BOUNCY_CASTLE_URL}/bcpg-jdk15on/${BOUNCY_CASTLE_VERSION}/bcpg-jdk15on-${BOUNCY_CASTLE_VERSION}.jar \
+    -O ${GERRIT_HOME}/lib/bcpg-jdk15on-${BOUNCY_CASTLE_VERSION}.jar
 
 # Ensure the entrypoint scripts are in a fixed location
 COPY gerrit-entrypoint.sh /
@@ -89,3 +100,4 @@ ENTRYPOINT ["/gerrit-entrypoint.sh"]
 EXPOSE 8080 29418
 
 CMD ["/gerrit-start.sh"]
+
